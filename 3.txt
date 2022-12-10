@@ -1,0 +1,39 @@
+Design of DataStore:
+Assuming each req/res takes 128KB
+Now as given 100 APIs and 1000 Users with roughly 1000000 API requests
+
+> Analysis
+
+Users/API = 10 u/A
+req/user = 1000 r/u
+
+#load we are defining the size taken by the particular entity [assumption taken earlier] 
+now load/user = 128*1000 KB
+
+Total_Load = 128*10^6 KB per day
+
+Now let say we are keeping monitoring data for 1 month [datastore capacity]: 
+SO that would be around >> 128*10^6*30 KB (3.57 TB approx..)
+
+Assuming the HOT Data access is 20% which is basically cached:
+3.57*0.2 = 714 GB [required cache]
+
+Note: Using NoSql[Key-value pair] storage policy for cache
+
+Component in consideration:
+Load Balancer
+Cache
+DataBase
+
+Responsibility:
+Req will be farworded to Load Balancer which then check with the available cache storage and then check for a hit if not then the request will be farworded
+to the main database and queried for the given parameters which then will be again stored according to the data locality.
+
+
+
+
+
+
+
+
+
